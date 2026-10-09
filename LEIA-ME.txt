@@ -1,0 +1,34 @@
+LEITOR DE ATESTADOS
+===================
+Como usar: descompacte a pasta e de dois cliques em index.html (Chrome ou Edge).
+Precisa de internet na primeira leitura (baixa o OCR e as bibliotecas de PDF).
+Nao envie a pasta pela internet com dados de pacientes: tudo roda no seu navegador.
+
+Estrutura
+---------
+index.html          Estrutura da pagina (so o HTML)
+css/estilo.css      Visual: cores, tema claro/escuro, layout
+js/parser.js        REGRAS DE EXTRACAO: CRM, medico, CID, dias, datas e outros campos (o que mais se ajusta)
+js/leitura.js       OCR da imagem e leitura de PDF
+js/app.js           Tela: envio do arquivo, preenchimento dos campos, botoes de copiar
+js/imagens-pdf.js   Conversor de imagens em PDF
+js/tema.js          Botao de tema claro/escuro
+js/tema-init.js     Aplica o tema salvo antes de a pagina aparecer
+
+Ordem dos scripts (importa): parser -> leitura -> app -> imagens-pdf -> tema
+Para ajustar uma regra de leitura, mexa so em js/parser.js.
+
+Regras de extracao (modulo)
+---------------------------
+- Cada campo mostra: status (Encontrado, Parcial, Nao encontrado, Ilegivel, Inconclusivo),
+  confianca, pagina, trecho do documento que sustenta o valor e o valor original lido.
+- Nada e inventado: o que nao esta no documento fica vazio.
+- Leitura de OCR duvidosa (O/0, I/1, S/5, B/8) NAO e corrigida em silencio: o valor lido fica no
+  campo e a correcao provavel aparece como botao "Usar leitura alternativa".
+- Datas/dias que nao estao escritos (ex.: termino = inicio + dias) NAO sao calculados por padrao.
+  Aparecem como "Sugestao calculada" (botao "usar"). A opcao "Calcular datas/dias..." preenche
+  automaticamente e marca o campo como "Calculado".
+- CID por extenso ("Diagnostico: lombalgia") e registrado a parte; o CID nunca e deduzido.
+- CPF, RG e data de nascimento do paciente nao sao extraidos nem aparecem nos trechos (mascarados).
+- O programa le o texto; ele NAO valida CRM no conselho, nem assinatura digital, nem prova autenticidade.
+- "Copiar JSON (auditoria)" copia todos os campos com status, trecho, pagina e valor original.

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leitor de Atestados</title>
+<script src="js/tema-init.js"></script>
+<link rel="stylesheet" href="css/estilo.css">
+<link rel="icon" type="image/png" href="img/icon-atestado.png">
+</head>
+<body>
+<header class="hero">
+  <svg class="ecg" viewBox="0 0 800 46" preserveAspectRatio="none" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M0 24h250l14-18 18 36 16-30 10 12h60l14-18 18 36 16-30 10 12h394"/></svg>
+  <div class="hero-in">
+    <div class="logo">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M9 2h6a1 1 0 0 1 1 1v5h5a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-5v5a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-5H3a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h5V3a1 1 0 0 1 1-1z"/></svg>
+    </div>
+    <div>
+      <h1>Leitor de Atestados</h1>
+      <p>CRM, CID e período de afastamento em segundos</p>
+    </div>
+    <button type="button" class="theme-btn" id="themeBtn" title="Tema escuro" aria-label="Tema escuro"></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h2><span class="dot"></span>Ler atestado</h2>
+    <p class="sub">Envie a imagem ou o PDF e copie os dados para o SOC. A leitura é feita no seu navegador; o arquivo não é enviado a nenhum servidor.</p>
+    <div class="drop" id="drop">
+      <div class="ico">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 17v-6"/><path d="m9.5 13.5 2.5-2.5 2.5 2.5"/></svg>
+      </div>
+      <button type="button" class="big">Selecionar PDF ou imagem</button>
+      <small>ou arraste o arquivo aqui · também vale colar com Ctrl+V</small>
+    </div>
+    <input type="file" id="file" accept="image/*,application/pdf,.pdf" hidden>
+    <img id="prev" alt="Prévia do atestado">
+    <div class="bar" id="bar"><div id="fill"></div></div>
+    <div id="status"></div>
+  </div>
+
+  <div class="card" id="results">
+    <h2><span class="dot"></span>Dados extraídos</h2>
+    <p class="sub">Confira os campos e copie cada um para o relatório.</p>
+    <div id="camposMain"></div>
+    <details class="extras"><summary>Outros dados do documento</summary><div id="camposExtra"></div></details>
+    <label class="check"><input type="checkbox" id="calc"> Calcular datas/dias que não estão escritos no atestado (ficam marcados como "calculado")</label>
+    <div id="hint" class="notes"></div>
+    <div class="actions">
+      <button class="sec" id="all">Copiar tudo</button>
+      <button class="sec" id="json">Copiar JSON (auditoria)</button>
+    </div>
+    <details style="margin-top:16px"><summary>Ver texto lido (OCR)</summary><pre id="raw"></pre></details>
+  </div>
+
+  <div class="card">
+    <h2><span class="dot"></span>Converter imagens em PDF</h2>
+    <p class="sub">Junte uma ou várias imagens (JPG, PNG...) em um único PDF.</p>
+    <div class="center"><button class="sec" id="pdfPick">Escolher imagens</button></div>
+    <input type="file" id="pdfImgs" accept="image/*" multiple hidden>
+    <div id="pdfList" style="margin:14px 0"></div>
+    <div class="field" id="pdfActions" style="display:none">
+      <div class="in"><label>Nome do arquivo</label><input type="text" id="pdfName" value="atestado"></div>
+      <button id="pdfMake">Gerar PDF</button>
+    </div>
+    <div id="pdfStatus" class="hint"></div>
+  </div>
+
+  <p class="foot">Sempre confira os dados lidos antes de lançar no SOC.</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="js/parser.js"></script>
+<script src="js/leitura.js"></script>
+<script src="js/app.js"></script>
+<script src="js/imagens-pdf.js"></script>
+<script src="js/tema.js"></script>
+</body>
+</html>
